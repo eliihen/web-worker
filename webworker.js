@@ -1,5 +1,5 @@
-angular.module('web-worker', [])
-    .factory('WebWorkers', function ($q) {
+angular.module('esphen.web-worker', ['ng'])
+    .factory('WebWorker', function ($q) {
         'use strict';
         return {
             run: function (fn, params) {
