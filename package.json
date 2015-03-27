@@ -1,7 +1,7 @@
 {
   "name": "web-worker",
   "description": "An angular.js module for executing code asynchronously in a seperate thread",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "filename": "dist/webworker.js",
   "main": "dist/webworker.js",
   "homepage": "https://github.com/esphen/web-worker",
