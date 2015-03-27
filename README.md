@@ -1,4 +1,9 @@
-# How do I use this?
+# Why shoud I use it?
+Sometimes you need to work with huge amounts of data in the browser. You don't want to, because you know what will happen, but someone forced your hand. You need to sort 600 rows of data, calculate some numbers based on every single value in the array, or some other really heavy task. Boom, you have 5+ second browser freezes. This is because *everything* in javascript runs in a single thread, so if something is blocking, everything is blocked. A solution was worked out quite some time ago called web workers, but have not reached widespread adoption because of their limitations and difficulty to implement. 
+
+This project aims to make working with web workers a whole lot easier. 
+
+## How do I use it?
 It's really easy. Think angular promises and you'll be good. Execute code like this:
 ```
   WebWorker.run(function (message) {
@@ -6,17 +11,17 @@ It's really easy. Think angular promises and you'll be good. Execute code like t
   
     // Really resource-intensive code involving result
   
-    postMessage(result);
-  
+    return result;
+
     }).then(function (result) {
       // PostMessage from above returns here when completed
       console.log("result:", result)
   });
 ```
 
-To run the then-function, you need to run a postMessage in the main function. This is because the code is run completely separately from the main javascript-thread and there is no way for it to know when it has completed unless it is explicitly told so.
+Calling return in the main function will cause a postMessage to be sent to the main thread with the provided data. The then method is then called with a result parameter containing the returned data. All this happens behind the scenes, and the isolated nature of web workers is a lot easier to deal with.
 
-Web workers are *really* isolated from the rest of the code, so the only way to pass parameters to the function above is via a provided params array after the function. Just putting in a variable from an outside scope will always result in undefined. An example of the correct syntax:
+Web workers are *really* isolated from the rest of the code, so the only way to pass parameters to the function above is via a provided params array after the function. Just calling a variable from an outside scope will always result in undefined. An example of the correct syntax:
 
 ```
   WebWorker.run(function (message) {
@@ -26,12 +31,14 @@ Web workers are *really* isolated from the rest of the code, so the only way to 
   
     // Really resource-intensive code involving 1, 2, 3
   
-    postMessage(result);
+    return result;
   
     }, [1, 2, 3]).then(function (result) {
       console.log("result:", result)
   });
 ```
+
+If a browser [does not support web workers](http://caniuse.com/#feat=webworkers), the method will safely fallback to not using them. Nothing will break, but no code will be run asynchronously, so performance will be the same as if web workers were not implemented.
 
 Because of the isolation built in to web workers, using them comes with some limitations. You cannot:
  - Access or manipulate the DOM, as it does not know about window or document 
@@ -43,9 +50,9 @@ You CAN (amongst other things):
  - Call XMLHttpRequests
  - Manipulate data using JS' built in methods
 
-##How do I install this?
+## How do I install it?
 First run:
 ```
 bower install -S web-worker
 ```
-Import the script in a script tag in your index.html, and import the module "esphen.web-worker" in your main module (app.js). Then you can simply add "WebWorker" as a dependency to any of your controllers, and et voilà, you're ready to roll with web workers!
+Import the script webworker.js in a script tag in your index.html, and import the module "esphen.web-worker" in your main module (app.js). Then you can simply add "WebWorker" as a dependency to any of your controllers, and et voilà, you're ready to roll with web workers!
