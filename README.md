@@ -64,6 +64,8 @@ You CAN (amongst other things):
  - Access the global browser Navigator object
  - Call XMLHttpRequests
  - Manipulate data using JS' built in methods
+ 
+For more information on what functions are available inside a worker scope, [refer to this page](https://developer.mozilla.org/en-US/docs/Web/API/Worker/Functions_and_classes_available_to_workers).
 
 ## How do I install it?
 First run:
