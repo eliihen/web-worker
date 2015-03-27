@@ -1,5 +1,5 @@
 # Why shoud I use it?
-Sometimes you need to work with huge amounts of data in the browser. You don't want to, because you know what will happen, but someone forced your hand. You need to sort 600 rows of data, calculate some numbers based on every single value in the array, or some other really heavy task. Boom, you have 5+ second browser freezes. This is because *everything* in javascript runs in a single thread, so if something is blocking, everything is blocked. A solution was worked out quite some time ago called web workers, but have not reached widespread adoption because of their limitations and difficulty to implement. 
+Sometimes you need to work with huge amounts of data in the browser. You don't want to, but someone forced your hand. Maybe you need to sort 600 rows of data, calculate some numbers based on every single value in the array, or some other really heavy task. Boom, you have 5+ second browser freezes. This is because *everything* in javascript runs in a single thread, so if something is blocking, everything is blocked. A solution was worked out quite some time ago called web workers, but have not reached widespread adoption because of their limitations and difficulty to implement. 
 
 This project aims to make working with web workers a whole lot easier. 
 
@@ -15,7 +15,7 @@ It's really easy. Think angular promises and you'll be good. Execute code like t
 
     }).then(function (result) {
       // PostMessage from above returns here when completed
-      console.log("result:", result)
+      console.log('result:', result)
   });
 ```
 
@@ -34,7 +34,22 @@ Web workers are *really* isolated from the rest of the code, so the only way to 
     return result;
   
     }, [1, 2, 3]).then(function (result) {
-      console.log("result:", result)
+      console.log('result:', result)
+  });
+```
+
+You can also implement error handling for errors that occur in the web worker:
+
+```
+  WebWorker.run(function () {
+  
+    throw new Error('This should never happen (Yet somehow it did!)');
+  
+  }).then(function (result) {
+    console.log('Success!');
+  }, function (error) {
+    console.error('An error occured!', error);
+    // Handle the error somehow
   });
 ```
 
