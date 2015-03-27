@@ -13,6 +13,9 @@
   "main":[
     "./webworker.js"
   ],
+  "devDependencies": {
+    "angular-mocks": "*"
+  },
   "ignore": [
     "node_modules",
     "bower_components",

@@ -1,13 +1,25 @@
 angular.module('esphen.web-worker', ['ng'])
-    .factory('WebWorker', function ($q) {
+    .factory('WebWorker', ['$q', function ($q) {
         'use strict';
+
+        /**
+         * This function does the following in order:
+         *  - Converts passed function to a string so we can process it
+         *  - Retrieves param name from passed function
+         *  - Converts function to a web worker blob
+         *  - Sets message and error handlers
+         *  - Initializes and starts worker
+         */
         var runWorker = function (fn, params) {
             var deferred = $q.defer();
-            // Strip wrapper function
-            var entire = fn.toString();
-            var functionBody = entire.slice(entire.indexOf('function'));
-            // TODO replace
-            functionBody = 'onmessage =' + functionBody;
+            var functionBody = fn.toString();
+
+            // Get argument name
+            var regexedBody = functionBody.match(/^function\s*[^\(]*\(\s*([^\)]*)\)/m);
+            var paramName = regexedBody[1] ? regexedBody[1] : '';
+
+            // Self invoke function inside a postMessage
+            functionBody = 'onmessage = function(' + paramName + '){postMessage(' + functionBody + '(' + paramName + '))}';
 
             // URL.createObjectURL
             window.URL = window.URL || window.webkitURL;
@@ -21,7 +33,7 @@ angular.module('esphen.web-worker', ['ng'])
                 blob.append(functionBody);
                 blob = blob.getBlob();
             }
-            var worker = new Worker(URL.createObjectURL(blob));
+            var worker = new Worker(window.URL.createObjectURL(blob));
 
             // Processed data returns
             worker.onmessage = function(message) {
@@ -36,22 +48,21 @@ angular.module('esphen.web-worker', ['ng'])
         };
 
         var makeFallbackFunction = function (fn, params) {
-            // Turn postMessage(x) into return x;
-            var functionBodyArray = fn.toString().split('postMessage');
-            functionBodyArray[1] = 'return ' + functionBodyArray[1].slice(1, functionBodyArray[1].indexOf(')')) + ';' + functionBodyArray[1].slice(indexOf(')') + 1);
-            var functionBody = functionBodyArray.reduce(function (previousValue, currentValue) {
-                return previousValue + currentValue;
-            });
-            return eval(functionBody)({data: params});
+            var deferred = $q.defer();
+            deferred.resolve(fn({data: params}));
+            return deferred.promise;
         };
 
         return {
             run: function (fn, params) {
+                if (typeof fn !== 'function') {
+                    throw 'WebWorker: First parameter must be a function';
+                }
                 if (!!window.Worker) { // Browser supports web workers
                     return runWorker(fn, params);
-                } else { // Browser does NOT support web workers, fallback TODO postMessage
-                    fn({data: params});
+                } else { // Browser does NOT support web workers, fallback
+                    return makeFallbackFunction(fn, params);
                 }
             }
         };
-    });
+    }]);
