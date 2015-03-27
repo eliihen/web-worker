@@ -22,7 +22,6 @@
     "package.json",
     "lib",
     "test",
-    //"src",
     "Gruntfile.js",
     ".gitignore",
     "README.md",
