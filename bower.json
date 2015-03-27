@@ -1,6 +1,6 @@
 {
   "name": "web-worker",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "src/webworker.js",
   "description": "An angular.js module for executing code asynchronously in a seperate thread",
   "repository": {
