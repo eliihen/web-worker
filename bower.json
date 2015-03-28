@@ -1,6 +1,6 @@
 {
   "name": "web-worker",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/web-worker.min.js",
   "description": "An angular.js module utilizing web workers to execute code asynchronously in a seperate thread",
   "repository": {
