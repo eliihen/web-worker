@@ -1,9 +1,9 @@
 {
   "name": "web-worker",
-  "description": "An angular.js module for executing code asynchronously in a seperate thread",
-  "version": "0.0.3",
-  "filename": "dist/webworker.js",
-  "main": "dist/webworker.js",
+  "description": "An angular.js module utilizing web workers to execute code asynchronously in a seperate thread",
+  "version": "0.0.4",
+  "filename": "dist/web-worker.min.js",
+  "main": "dist/web-worker.min.js",
   "homepage": "https://github.com/esphen/web-worker",
   "author": "Espen Henriksen <esphendev@icloud.com>",
   "repository": {
@@ -20,7 +20,10 @@
     "thread",
     "javascript",
     "async",
-    "web worker"
+    "asynchronous",
+    "asynchronously",
+    "web worker",
+    "web workers"
   ],
   "dependencies": {
     "angular": "*"

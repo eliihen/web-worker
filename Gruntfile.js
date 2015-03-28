@@ -30,7 +30,7 @@ module.exports = function(grunt) {
       }
     },
     zip: {
-      '<%= dirs.dest %>/angular-filter.zip': [
+      '<%= dirs.dest %>/webworker.zip': [
         '<%= dirs.dest %>/<%= pkg.name %>.js',
         '<%= dirs.dest %>/<%= pkg.name %>.min.js'
       ]
@@ -83,15 +83,6 @@ module.exports = function(grunt) {
       options: {
         dest: 'CHANGELOG.md'
       }
-    },
-    coveralls: {
-      options: {
-        force: true,
-        recursive: true
-      },
-      all: {
-        src: 'test/coverage/**/lcov.info'
-      }
     }
   });
 
@@ -114,13 +105,11 @@ module.exports = function(grunt) {
 
   grunt.loadNpmTasks('grunt-zip');
 
-  grunt.loadNpmTasks('grunt-coveralls');
-
   // Default task.
   grunt.registerTask('default', ['build']);
 
   // Build task.
-  grunt.registerTask('build', ['bowerInstall', 'karma:build', 'concat', 'uglify', 'zip', 'coveralls']);
+  grunt.registerTask('build', ['bowerInstall', 'karma:build', 'concat', 'uglify', 'zip']);
 
   grunt.registerTask('test', ['karma:build']);
 

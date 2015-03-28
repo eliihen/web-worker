@@ -1,3 +1,10 @@
+/**
+ * An angular.js module utilizing web workers to execute code asynchronously in a seperate thread
+ * @version v0.0.4 - 2015-03-28 * @link https://github.com/esphen/web-worker
+ * @author Espen Henriksen <esphendev@icloud.com>
+ * @license MIT License, http://www.opensource.org/licenses/MIT
+ */
+(function ( window, angular, undefined ) {
 angular.module('esphen.web-worker', ['ng'])
     .factory('WebWorker', ['$q', function ($q) {
         'use strict';
@@ -66,3 +73,4 @@ angular.module('esphen.web-worker', ['ng'])
             }
         };
     }]);
+})( window, window.angular );
