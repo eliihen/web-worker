@@ -73,3 +73,6 @@ First run:
 bower install -S web-worker
 ```
 Import the script webworker.js in a script tag in your index.html, and import the module "esphen.web-worker" in your main module (app.js). Then you can simply add "WebWorker" as a dependency to any of your controllers, and et voilà, you're ready to roll with web workers!
+
+### What if I'm living in the past and don't use bower?
+That's okay, the project is bundled in a zip file for your convenience. Click [here](https://github.com/esphen/web-worker/blob/master/dist/webworker.zip) to download the most recent stable version.
