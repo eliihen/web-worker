@@ -33,17 +33,26 @@ angular.module('esphen.web-worker', ['ng'])
                 blob.append(functionBody);
                 blob = blob.getBlob();
             }
-            var worker = new Worker(window.URL.createObjectURL(blob));
 
-            // Processed data returns
-            worker.onmessage = function(message) {
-                deferred.resolve(message.data);
-            };
-            worker.onerror = function (error) {
-                deferred.reject(error);
-            };
-            // Start worker
-            worker.postMessage(params);
+            try {
+              var worker = new Worker(window.URL.createObjectURL(blob));
+
+              // Processed data returns
+              worker.onmessage = function(message) {
+                  deferred.resolve(message.data);
+              };
+              worker.onerror = function (error) {
+                  deferred.reject(error);
+              };
+              // Start worker
+              worker.postMessage(params);
+            } catch (e) {
+
+              // Fallback for browsers that do not support generating webworkers from blobs..
+              console.info('web-worker: Browser does not support generating webworker from Blob, fallback to non-web worker');
+              deferred.resolve(fn({data: params}));
+            }
+
             return deferred.promise;
         };
 
