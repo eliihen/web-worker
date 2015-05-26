@@ -1,3 +1,6 @@
+# 0.0.6 (2015-05-26)
+ - Adds support for borwsers that dont support building web worders from blobs (IE10..)
+
 # 0.0.5 (2015-03-28)
  - Adds minified files
  - Adds more unit tests and refacors existing tests
